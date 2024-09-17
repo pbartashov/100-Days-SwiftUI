@@ -28,7 +28,7 @@ struct CurrencyField: View {
 }
 
 #Preview {
-    @State var value = 5.0
+    @Previewable @State var value = 5.0
 
     return CurrencyField("Test", value: $value)
 }
