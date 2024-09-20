@@ -84,6 +84,7 @@ struct ContentView: View {
                     CurrencyText(grandTotal)
                         .frame(maxWidth: .infinity, alignment: .center)
                         .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
+                        .foregroundStyle(tipPercantage == 0 ? Color.red : Color.white)
                 }
 
                 Section("Amount per person") {
