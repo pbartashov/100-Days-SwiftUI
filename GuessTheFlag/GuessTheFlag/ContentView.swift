@@ -9,6 +9,23 @@ import SwiftUI
 
 struct ContentView: View {
 
+    private enum Constants {
+        static let flagsToShowCount = 3
+        static let rangeOfFlagNumbers = 0..<Constants.flagsToShowCount
+    }
+
+    private struct FlagAnimationData {
+        static let defaultOpacity = 1.0
+        static let defaultRotation = 0.0
+        static let defaultScale = 1.0
+
+        var rotation = defaultRotation
+        var opacity = defaultOpacity
+        var scale = defaultScale
+    }
+
+    private let flagsToShowCount = 3
+
     private let maxAttemptCount = 8
     @State private var attemptCount = 0
 
@@ -16,6 +33,11 @@ struct ContentView: View {
     @State private var showingFinalScore = false
     @State private var scoreTitle = ""
     @State private var score = 0
+
+    @State private var flagsAnimationData = Array(
+        repeating: FlagAnimationData(),
+        count: Constants.flagsToShowCount
+    )
 
     @State private var countries = [
         "Estonia",
@@ -31,7 +53,7 @@ struct ContentView: View {
         "US"
     ].shuffled()
 
-    @State private var correctAnswer = Int.random(in: 0...2)
+    @State private var correctAnswer = Int.random(in: Constants.rangeOfFlagNumbers)
 
     var body: some View {
         ZStack {
@@ -57,7 +79,7 @@ struct ContentView: View {
 
             VStack {
                 Spacer()
-                
+
                 Text("Guess the flag")
                     .font(.largeTitle.weight(.bold))
                     .foregroundStyle(.white)
@@ -72,11 +94,32 @@ struct ContentView: View {
                             .font(.largeTitle.weight(.semibold))
                     }
 
-                    ForEach(0..<3) { number in
+                    ForEach(Constants.rangeOfFlagNumbers, id: \.self) { number in
                         Button {
-                            flagTapped(number)
+                            withAnimation(.easeInOut(duration: 0.5)) {
+                                setFlagsProperties(excludingNumber: number, opacity: 0.25, scale: 0.5)
+                            }
+
+                            withAnimation(.spring(duration: 1)) {
+                                flagsAnimationData[number].rotation = 360
+                            } completion: {
+                                flagsAnimationData[number].rotation = FlagAnimationData.defaultRotation
+                                setFlagsProperties(
+                                    excludingNumber: number,
+                                    opacity: FlagAnimationData.defaultOpacity,
+                                    scale: FlagAnimationData.defaultScale
+                                )
+
+                                flagTapped(number)
+                            }
                         } label: {
                             FlagImage(imageName: countries[number])
+                                .rotation3DEffect(
+                                    .degrees(flagsAnimationData[number].rotation),
+                                    axis: (x: 0, y: 1, z: 0)
+                                )
+                                .scaleEffect(flagsAnimationData[number].scale)
+                                .opacity(flagsAnimationData[number].opacity)
                         }
                     }
                 }
@@ -115,7 +158,7 @@ struct ContentView: View {
         } else {
             scoreTitle = "Wrong! That’s the flag of \(countries[answer])"
         }
-  
+
         showingCurrentScore = true
         attemptCount += 1
     }
@@ -134,6 +177,22 @@ struct ContentView: View {
         score = 0
 
         nextQuestion()
+    }
+
+    private func setFlagsProperties(
+        excludingNumber number: Int,
+        opacity: Double,
+        scale: Double
+    ) {
+        for index in Constants.rangeOfFlagNumbers {
+            if index == number {
+                flagsAnimationData[index].opacity = FlagAnimationData.defaultOpacity
+                flagsAnimationData[index].scale = FlagAnimationData.defaultScale
+            } else {
+                flagsAnimationData[index].opacity = opacity
+                flagsAnimationData[index].scale = scale
+            }
+        }
     }
 }
 
