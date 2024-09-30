@@ -8,7 +8,7 @@
 import Foundation
 
 struct Mission: Identifiable {
-    struct CrewRole: Codable {
+    struct CrewRole: Codable, Hashable {
         let name: String
         let role: String
     }
@@ -20,6 +20,7 @@ struct Mission: Identifiable {
 }
 
 extension Mission: Codable { }
+extension Mission: Hashable { }
 
 extension Mission {
     var displayName: String {

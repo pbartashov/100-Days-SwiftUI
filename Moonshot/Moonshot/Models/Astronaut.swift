@@ -14,3 +14,4 @@ struct Astronaut: Identifiable {
 }
 
 extension Astronaut: Codable { }
+extension Astronaut: Hashable { }

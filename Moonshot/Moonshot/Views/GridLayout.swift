@@ -11,17 +11,15 @@ struct GridLayout: View {
     let columns = [
         GridItem(.adaptive(minimum: 150))
     ]
-
+    
     let missions: [Mission]
     let astronauts: [String: Astronaut]
-
+    
     var body: some View {
         ScrollView {
             LazyVGrid(columns: columns) {
                 ForEach(missions) { mission in
-                    NavigationLink {
-                        MissionView(mission: mission, astronauts: astronauts)
-                    } label: {
+                    NavigationLink(value: mission) {
                         VStack {
                             Image(mission.imageName)
                                 .resizable()
@@ -51,6 +49,10 @@ struct GridLayout: View {
             }
             .padding([.horizontal, .bottom])
         }
+        .navigationDestination(for: Mission.self) { mission in
+            MissionView(mission: mission, astronauts: astronauts)
+            
+        }
     }
 }
 
@@ -58,7 +60,7 @@ struct GridLayout: View {
     NavigationStack {
         let astronauts: [String: Astronaut] = Bundle.main.decode("astronauts.json")
         let missions: [Mission] = Bundle.main.decode("missions.json")
-
+        
         GridLayout(missions: missions, astronauts: astronauts)
             .preferredColorScheme(.dark)
     }

@@ -14,9 +14,7 @@ struct AsronautListView: View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack {
                 ForEach(crew, id: \.role) { crewMember in
-                    NavigationLink {
-                        AstronautView(astronaut: crewMember.astronaut)
-                    } label: {
+                    NavigationLink(value: crewMember.astronaut) {
                         VStack {
                             ZStack(alignment: .topTrailing) {
                                 Image(crewMember.astronaut.id)
@@ -46,6 +44,9 @@ struct AsronautListView: View {
                         .padding(.horizontal)
                     }
                 }
+            }
+            .navigationDestination(for: Astronaut.self) { astronaut in
+                AstronautView(astronaut: astronaut)
             }
         }
     }

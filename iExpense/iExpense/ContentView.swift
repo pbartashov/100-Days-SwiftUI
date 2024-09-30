@@ -46,8 +46,9 @@ struct ContentView: View {
                         showingAddExpense = true
                     }
                 }
-                .sheet(isPresented: $showingAddExpense) {
+                .navigationDestination(isPresented: $showingAddExpense) {
                     AddView(expenses: expenses)
+                        .navigationBarBackButtonHidden()
                 }
             }
         }

@@ -10,19 +10,17 @@ import SwiftUI
 struct ListLayout: View {
     let missions: [Mission]
     let astronauts: [String: Astronaut]
-    
+
     var body: some View {
         List(missions) { mission in
-            NavigationLink {
-                MissionView(mission: mission, astronauts: astronauts)
-            } label: {
+            NavigationLink(value: mission) {
                 HStack {
                     Image(mission.imageName)
                         .resizable()
                         .scaledToFit()
                         .frame(width: 50, height: 50)
                         .padding(.horizontal)
-                    
+
                     VStack {
                         Text(mission.displayName)
                             .font(.headline)
@@ -42,6 +40,10 @@ struct ListLayout: View {
             )
         }
         .listStyle(.plain)
+        .navigationDestination(for: Mission.self) { mission in
+            MissionView(mission: mission, astronauts: astronauts)
+
+        }
     }
 }
 
@@ -49,7 +51,7 @@ struct ListLayout: View {
     NavigationStack {
         let astronauts: [String: Astronaut] = Bundle.main.decode("astronauts.json")
         let missions: [Mission] = Bundle.main.decode("missions.json")
-        
+
         ListLayout(missions: missions, astronauts: astronauts)
             .preferredColorScheme(.dark)
     }

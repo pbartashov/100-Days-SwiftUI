@@ -13,7 +13,7 @@ struct AddView: View {
 
     let expenses: Expenses
 
-    @State private var name = ""
+    @State private var name = "Name"
     @State private var type = ExpensesTypes.personal
     @State private var amount = 0.0
 
@@ -37,13 +37,22 @@ struct AddView: View {
                 )
                 .keyboardType(.numberPad)
             }
-            .navigationTitle("Add new expense")
+            .navigationBarTitleDisplayMode(.inline)
+            .navigationTitle($name)
             .toolbar {
-                Button("Save") {
-                    let expense = ExpenseItem(name: name, type: type, amount: amount)
-                    expenses.items.append(expense)
+                ToolbarItem(placement: .primaryAction) {
+                    Button("Save") {
+                        let expense = ExpenseItem(name: name, type: type, amount: amount)
+                        expenses.items.append(expense)
 
-                    dismiss()
+                        dismiss()
+                    }
+                }
+                
+                ToolbarItem(placement: .cancellationAction) {
+                    Button("Cancel") {
+                        dismiss()
+                    }
                 }
             }
         }
