@@ -15,7 +15,7 @@ final class PathStore {
         }
     }
 
-    private let savePath = URL.documentsDirectory.appending(path: "SsavedPath")
+    private let savePath = URL.documentsDirectory.appending(path: "SavedPath")
 
     init() {
         guard
