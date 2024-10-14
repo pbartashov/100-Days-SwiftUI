@@ -20,6 +20,7 @@ struct ListLayout: View {
                         .scaledToFit()
                         .frame(width: 50, height: 50)
                         .padding(.horizontal)
+                        .accessibilityHidden(true)
 
                     VStack {
                         Text(mission.displayName)
@@ -31,6 +32,8 @@ struct ListLayout: View {
                     }
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .background(.lightBackground)
+                    .accessibilityElement(children: .combine)
+                    .accessibilityHint("Tap to learn more")
                 }
                 .clipShape(.rect(cornerRadius: 10))
             }

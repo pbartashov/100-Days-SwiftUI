@@ -25,6 +25,7 @@ struct MissionView: View {
                         width * 0.6
                     }
                     .padding(.vertical)
+                    .accessibilityHidden(true)
                 
                 Text(mission.completeFormattedLaunchDate)
                 
@@ -64,7 +65,7 @@ struct MissionView: View {
             }
         }
     }
- }
+}
 
 #Preview {
     let missions: [Mission] = Bundle.main.decode("missions.json")

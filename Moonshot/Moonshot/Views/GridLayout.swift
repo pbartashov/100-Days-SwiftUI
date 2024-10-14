@@ -26,6 +26,7 @@ struct GridLayout: View {
                                 .scaledToFit()
                                 .frame(width: 100, height: 100)
                                 .padding()
+                                .accessibilityHidden(true)
                             
                             VStack {
                                 Text(mission.displayName)
@@ -38,6 +39,8 @@ struct GridLayout: View {
                             .padding(.vertical)
                             .frame(maxWidth: .infinity)
                             .background(.lightBackground)
+                            .accessibilityElement(children: .combine)
+                            .accessibilityHint("Tap to learn more")
                         }
                         .clipShape(.rect(cornerRadius: 10))
                         .overlay {

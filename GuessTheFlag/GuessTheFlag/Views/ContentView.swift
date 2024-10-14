@@ -120,6 +120,7 @@ struct ContentView: View {
                                 )
                                 .scaleEffect(flagsAnimationData[number].scale)
                                 .opacity(flagsAnimationData[number].opacity)
+                                .accessibilityLabel(Labels.label(for: countries[number]))
                         }
                     }
                 }

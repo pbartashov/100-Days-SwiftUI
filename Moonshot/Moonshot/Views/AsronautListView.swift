@@ -25,10 +25,12 @@ struct AsronautListView: View {
                                         Capsule()
                                             .strokeBorder(.white, lineWidth: 1)
                                     )
+                                    .accessibilityHidden(true)
 
                                 if crewMember.isCommander {
                                     Image(systemName: "star.fill")
                                         .foregroundStyle(.yellow)
+                                        .accessibilityHidden(true)
                                 }
                             }
 
@@ -40,6 +42,7 @@ struct AsronautListView: View {
                                 Text(crewMember.role)
                                     .foregroundStyle(.white.opacity(0.5))
                             }
+                            .accessibilityElement(children: .combine)
                         }
                         .padding(.horizontal)
                     }

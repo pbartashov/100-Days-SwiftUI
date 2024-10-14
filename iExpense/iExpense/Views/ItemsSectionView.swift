@@ -36,6 +36,8 @@ struct ItemsSectionView: View {
                     )
                     .foregroundStyle(color(for: item.amount))
                 }
+                .accessibilityLabel("\(item.name) \(item.amount)")
+                .accessibilityHint(item.type.rawValue)
             }
             .onDelete(perform: removeItems)
         }
